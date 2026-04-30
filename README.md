@@ -75,8 +75,18 @@ rag-chatbot-langchain/
 ├── app.py              # Streamlit UI
 ├── tests/              # pytest unit tests
 └── docs/
-    └── architecture.md # Mermaid diagram + design decisions
+    ├── architecture.md    # Mermaid diagram + design decisions
+    ├── how_it_works.md    # Deep-dive: every step explained with code refs
+    └── interview_prep.md  # Interview Q&A tied to this codebase
 ```
+
+## Documentation
+
+| Doc | Purpose |
+|-----|---------|
+| [docs/how_it_works.md](docs/how_it_works.md) | Step-by-step explanation of the RAG pipeline with code references |
+| [docs/interview_prep.md](docs/interview_prep.md) | 15+ interview Q&A — concept, design, scale, and code-specific questions |
+| [docs/architecture.md](docs/architecture.md) | Mermaid architecture diagram |
 
 ## Evaluation Results
 
