@@ -10,8 +10,8 @@ from typing import Any, Dict
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.vectorstores import Chroma
+from .utils import get_llm
 
 logger = logging.getLogger(__name__)
 
@@ -54,10 +54,7 @@ def build_rag_chain(vectorstore: Chroma, k: int = 4):
         ("human", "{question}"),
     ])
 
-    llm = ChatGoogleGenerativeAI(
-        model="gemini-2.0-flash",
-        temperature=0,
-    )
+    llm = get_llm(temperature=0)
 
     chain = (
         {

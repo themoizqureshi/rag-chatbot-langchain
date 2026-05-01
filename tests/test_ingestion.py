@@ -1,7 +1,7 @@
 """Tests for the PDF ingestion pipeline."""
 
 import pytest
-from langchain.schema import Document
+from langchain_core.documents import Document
 from src.ingestion import chunk_documents
 
 

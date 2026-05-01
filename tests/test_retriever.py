@@ -1,7 +1,7 @@
 """Tests for the retriever module."""
 
 from unittest.mock import MagicMock
-from langchain.schema import Document
+from langchain_core.documents import Document
 from src.retriever import get_retriever, retrieve_documents
 
 
