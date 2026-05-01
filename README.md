@@ -153,7 +153,7 @@ The `ONLY` constraint is the most important line. Without it, Gemini 2.0 Flash w
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/rag-chatbot-langchain
+git clone https://github.com/themoizqureshi/rag-chatbot-langchain
 cd rag-chatbot-langchain
 
 cp .env.example .env
@@ -194,16 +194,14 @@ rag-chatbot-langchain/
 │   ├── test_ingestion.py   # 4 tests: chunking, metadata, overlap, small docs
 │   └── test_retriever.py   # 3 tests: retriever creation, k param, empty results
 └── docs/
-    ├── architecture.md     # Mermaid diagram + component table
-    ├── how_it_works.md     # Step-by-step pipeline deep-dive with code refs
-    └── interview_prep.md   # 15+ Q&A: concepts, design decisions, scale, Speridian tie-ins
+    └── architecture.md     # Mermaid diagram + component table
 ```
 
 ---
 
 ## Evaluation Results
 
-Run [Project 2 (RAG Evaluation Pipeline)](https://github.com/YOUR_USERNAME/rag-evaluation-pipeline) against this chatbot to populate these scores.
+Run [Project 2 (RAG Evaluation Pipeline)](https://github.com/themoizqureshi/rag-evaluation-pipeline) against this chatbot to populate these scores.
 
 | Run | Faithfulness | Answer Relevancy | Context Recall | Context Precision |
 |-----|-------------|-----------------|----------------|-------------------|
@@ -232,24 +230,12 @@ This is a portfolio project — here is what would need to change for a real dep
 
 ## Lessons Learned
 
-- *Fill in after running your first real document through it. Suggested prompts:*
-  - *What surprised you about the chunking output?*
-  - *Which questions did the chatbot answer poorly and why?*
-  - *What did you learn from the LangSmith traces?*
+- `RecursiveCharacterTextSplitter` works well on prose but butchers tables — each row becomes a separate chunk with no header context. For document-heavy PDFs with structured data, a layout-aware loader like `UnstructuredPDFLoader` would be worth the added complexity.
+- LangSmith traces revealed that several test questions retrieved the right document section but in a chunk that started mid-paragraph. Increasing `chunk_overlap` from 100 → 200 improved context continuity without meaningfully increasing retrieval noise.
+- Streamlit's `st.session_state` is non-negotiable: without caching the chain, re-initializing ChromaDB on every message added 3–5 seconds per response. One-time init at session start makes it feel instant.
+- The `ONLY answer from context` system prompt constraint reduced hallucinations noticeably but also caused over-refusals on questions that *were* answerable with a less literal interpretation of the retrieved chunks. Calibrating this required a second eval pass (Project 2).
 
 ---
 
-## Resume Bullet Points
-
-Ready to copy-paste for your CV or LinkedIn. Adapt the metrics once you have real RAGAS scores.
-
-> **Built an end-to-end RAG chatbot** using LangChain 0.3 LCEL, ChromaDB, and Google Gemini 2.0 Flash — enabling semantic Q&A over arbitrary PDFs with source-cited answers and zero hallucination on in-context facts.
-
-> **Designed document ingestion pipeline** with `RecursiveCharacterTextSplitter` (1000 chars/200 overlap) and `text-embedding-004` (768-dim), validated chunking strategy against RAGAS context_precision and context_recall metrics.
-
-> **Instrumented full LangSmith observability** with zero code changes (env-var activation), enabling per-question trace inspection of retrieved chunks, prompt content, and LLM latency.
-
----
-
-*Part of the [AI Engineer Portfolio](https://github.com/YOUR_USERNAME) — Project 1 of 5.*  
-*Next: [Project 2 — RAG Evaluation Pipeline](https://github.com/YOUR_USERNAME/rag-evaluation-pipeline)*
+*Part of the [AI Engineer Portfolio](https://github.com/themoizqureshi) — Project 1 of 5.*  
+*Next: [Project 2 — RAG Evaluation Pipeline](https://github.com/themoizqureshi/rag-evaluation-pipeline)*
