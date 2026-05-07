@@ -121,7 +121,7 @@ async def chat(req: ChatRequest):
     chain = session["chain"]
     retriever = session["retriever"]
 
-    docs = retriever.get_relevant_documents(req.question)
+    docs = retriever.invoke(req.question)
     answer = chain.invoke(req.question)
 
     sources = [

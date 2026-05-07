@@ -4,7 +4,7 @@ PDF ingestion pipeline: load → chunk → embed → store in ChromaDB.
 Design decisions:
 - chunk_size=1000, overlap=200: good balance for technical docs
 - RecursiveCharacterTextSplitter: respects sentence boundaries
-- Google text-embedding-004: free with Gemini API key, 768 dims
+- BAAI/bge-small-en-v1.5: 384-dim HuggingFace embeddings, runs locally, no API key needed
 """
 
 import logging
@@ -13,7 +13,7 @@ from typing import List
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.vectorstores import Chroma
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.documents import Document
 
 logging.basicConfig(level=logging.INFO)
@@ -45,9 +45,9 @@ def chunk_documents(
     return chunks
 
 
-def get_embeddings() -> GoogleGenerativeAIEmbeddings:
-    """Return Google text-embedding-004 model (free with Gemini API key)."""
-    return GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+def get_embeddings() -> HuggingFaceEmbeddings:
+    """Return BAAI/bge-small-en-v1.5 — 384-dim embeddings, runs locally, no API key."""
+    return HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
 
 def create_vectorstore(
