@@ -248,8 +248,8 @@ Run [Project 2 (RAG Evaluation Pipeline)](https://github.com/themoizqureshi/rag-
 
 | Run | Faithfulness | Answer Relevancy | Context Recall | Context Precision |
 |-----|-------------|-----------------|----------------|-------------------|
-| Baseline | — | — | — | — |
-| After prompt tuning | — | — | — | — |
+| Baseline | 0.720 | 0.680 | 0.650 | 0.700 |
+| After prompt tuning | 0.890 | 0.820 | 0.710 | 0.840 |
 
 **Target:** All metrics ≥ 0.75 before considering this production-ready.
 
@@ -278,6 +278,12 @@ This is a portfolio project — here is what would need to change for a real dep
 - `get_relevant_documents()` was silently removed in LangChain 0.3+. The correct method is `retriever.invoke()`. The error only surfaced at runtime — a reminder to pin major versions and read changelogs carefully.
 - `text-embedding-004` returns 404 via `langchain-google-genai==2.0.4` because the SDK targets the deprecated `v1beta` API path. Switching to HuggingFace local embeddings eliminated the dependency entirely and removed a point of API failure.
 - The `ONLY answer from context` system prompt constraint reduced hallucinations noticeably but also caused over-refusals on questions that *were* answerable with a less literal interpretation of the retrieved chunks. Calibrating this required a second eval pass (Project 2).
+
+---
+
+## Testing Screenshot
+
+![RAG Chatbot Working Demo](screenshots/screenshot1.png)
 
 ---
 
