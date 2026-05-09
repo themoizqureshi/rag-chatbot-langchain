@@ -72,9 +72,17 @@ def load_existing_vectorstore(persist_directory: str = "./chroma_db") -> Chroma:
     return Chroma(persist_directory=persist_directory, embedding_function=embeddings)
 
 
-def ingest_pdf(file_path: str, persist_directory: str = "./chroma_db") -> Chroma:
-    """Full ingestion pipeline: PDF → chunks → ChromaDB. Main entry point."""
+def ingest_pdf(
+    file_path: str,
+    persist_directory: str = "./chroma_db",
+) -> tuple[Chroma, List[Document]]:
+    """
+    Full ingestion pipeline: PDF → chunks → ChromaDB.
+
+    Returns (vectorstore, chunks). Chunks are returned alongside the vectorstore
+    so callers can build a hybrid BM25 + dense retriever without re-reading the DB.
+    """
     docs = load_pdf(file_path)
     chunks = chunk_documents(docs)
     vectorstore = create_vectorstore(chunks, persist_directory)
-    return vectorstore
+    return vectorstore, chunks
